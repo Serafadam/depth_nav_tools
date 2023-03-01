@@ -30,12 +30,12 @@ def generate_launch_description():
 
     laserscan_node = Node(
         package='depth_sensor_pose',
-        node_executable='depth_sensor_pose_exe',
+        executable='depth_sensor_pose_exe',
         parameters=[config],
         remappings=[
             ('/image', '/camera/depth/image_raw'),
             ('/camera_info', '/camera/depth/camera_info'),
-        ]
+        ],
     )
     ld.add_action(laserscan_node)
 

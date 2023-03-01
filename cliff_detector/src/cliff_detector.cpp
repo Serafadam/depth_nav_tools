@@ -337,9 +337,9 @@ void CliffDetector::findCliffInDepthImage(
           } else if (typeid(T) == typeid(float)) {
             d = static_cast<float>(data[row_size * row + col]);
           }
-
+          double current_dist_to_ground = dist_to_ground_[row] + ground_margin_;
           // Check if distance to point is greater than distance to ground plane
-          if (d > (dist_to_ground_[row] + ground_margin_) && d > range_min_ && d < range_max_) {
+          if (d > current_dist_to_ground && current_dist_to_ground > range_min_) {
             tpoints[block_cnt][Row] = row;
             tpoints[block_cnt][Col] = col;
             tpoints[block_cnt][Depth] = d;
@@ -385,11 +385,11 @@ void CliffDetector::findCliffInDepthImage(
   for (it = stairs_points.begin(); it != stairs_points.end(); ++it) {
     // Calculate point in XZ plane -- depth (z)
     unsigned row = (*it)[Row];
-    pt.z = sensor_mount_height_ / std::tan(sensor_tilt + delta_row_[row]);
+    pt.x = sensor_mount_height_ / std::tan(sensor_tilt + delta_row_[row]);
 
     // Calculate x value
     const double depth = sensor_mount_height_ / std::sin(sensor_tilt + delta_row_[row]);
-    pt.x = ((*it)[Col] - camera_model_.cx()) * depth / camera_model_.fx();
+    pt.y = -((*it)[Col] - camera_model_.cx()) * depth / camera_model_.fx();
 
     // Add point to message
     stairs_points_msg_.polygon.points.push_back(pt);
