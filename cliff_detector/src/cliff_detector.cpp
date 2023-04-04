@@ -385,11 +385,11 @@ void CliffDetector::findCliffInDepthImage(
   for (it = stairs_points.begin(); it != stairs_points.end(); ++it) {
     // Calculate point in XZ plane -- depth (z)
     unsigned row = (*it)[Row];
-    pt.x = sensor_mount_height_ / std::tan(sensor_tilt + delta_row_[row]);
+    pt.z = sensor_mount_height_ / std::tan(sensor_tilt + delta_row_[row]);
 
     // Calculate x value
     const double depth = sensor_mount_height_ / std::sin(sensor_tilt + delta_row_[row]);
-    pt.y = -((*it)[Col] - camera_model_.cx()) * depth / camera_model_.fx();
+    pt.x = -((*it)[Col] - camera_model_.cx()) * depth / camera_model_.fx();
 
     // Add point to message
     stairs_points_msg_.polygon.points.push_back(pt);
