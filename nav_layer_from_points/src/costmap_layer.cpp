@@ -38,14 +38,14 @@ void NavLayerFromPoints::onInitialize()
 
   node->declare_parameter(getFullName("keep_time"), 0.75);
   enabled_ = node->declare_parameter(getFullName("enabled"), true);
-  point_radius_ = node->declare_parameter(getFullName("point_radius"), 0.2);
+  point_radius_ = node->declare_parameter(getFullName("point_radius"), 0.01);
   robot_radius_ = node->declare_parameter(getFullName("robot_radius"), 0.6);
   topic_ = node->declare_parameter(getFullName("topic"), "points");
 
   points_keep_time_ = rclcpp::Duration::from_seconds(node->get_parameter(getFullName("keep_time")).as_double());
 
   sub_points_ = node->create_subscription<geometry_msgs::msg::PolygonStamped>(
-    topic_, 1, std::bind(&NavLayerFromPoints::pointsCallback, this, std::placeholders::_1));
+    "/points", 2, std::bind(&NavLayerFromPoints::pointsCallback, this, std::placeholders::_1));
 }
 
 void NavLayerFromPoints::pointsCallback(
@@ -178,7 +178,7 @@ void NavLayerFromPoints::updateCosts(
   for (const auto & point : transformed_points_) {
     const auto & pt = point.point;
 
-    const int size = std::max(1, static_cast<int>((point_radius_ + robot_radius_) / resolution));
+    const int size = static_cast<int>(point_radius_/resolution);
     unsigned map_x, map_y;
     int size_x = size, size_y = size;
     int start_x, start_y, end_x, end_y;

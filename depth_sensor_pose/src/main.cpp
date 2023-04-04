@@ -21,7 +21,7 @@
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
-  auto node = std::shared_ptr<depth_sensor_pose::DepthSensorPoseNode>();
+  auto node = std::make_shared<depth_sensor_pose::DepthSensorPoseNode>();
   rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;
