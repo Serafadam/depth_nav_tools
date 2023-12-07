@@ -54,7 +54,6 @@ LaserScanKinectNode::LaserScanKinectNode(const rclcpp::NodeOptions& options)
   pub_dbg_img_ = image_transport::create_publisher(this, "debug_image");
 
   RCLCPP_INFO(this->get_logger(), "Node laserscan_kinect initialized.");
-  RCLCPP_INFO(this->get_logger(), "Node 2 initialized.");
 }
 
 LaserScanKinectNode::~LaserScanKinectNode()
