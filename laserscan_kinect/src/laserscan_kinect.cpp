@@ -93,7 +93,7 @@ sensor_msgs::msg::LaserScan::SharedPtr LaserScanKinect::getLaserScanMsg(
     const auto cam_cy = cam_model_.cy();
     if (scan_height_ / 2.0 > cam_cy || scan_height_ / 2.0 > depth_msg->height - cam_cy) {
       std::stringstream ss;
-      ss << "scan_height ( " << scan_height_ << " pixels) is too large for the image height.";
+      ss << "scan_height ( " << scan_height_ << " pixels) is too large for the image height. Height: ( " << depth_msg->height << " ) cam cy: ( " << cam_cy << " ) ";
       throw std::runtime_error(ss.str());
     }
 
